@@ -1,0 +1,172 @@
+<div class="layuimini-container layuimini-page-anim">
+    <div class="layuimini-main">
+
+        <div class="demoTable layui-form">
+
+            处理状态：
+            <div class="layui-inline">
+                <select name="score"  id="score" lay-verify="required" >
+                    <option value="">选择评分</option>
+                    <option value="2">差评</option>
+                    <option value="4">中评</option>
+                    <option value="5">好评</option>
+                </select>
+            </div>
+
+            维修人员：
+            <div class="layui-inline">
+                <select name="repairPersonnelId"  id="repairPersonnelId" lay-verify="required" lay-search="">
+                    <option value="">选择维修人员</option>
+                </select>
+            </div>
+
+            <button class="layui-btn" data-type="reload">搜索</button>
+        </div>
+
+<!--        <script type="text/html" id="toolbarDemo">-->
+<!--            <button class="layui-btn layui-btn-sm layui-btn-danger data-delete-btn" lay-event="add"> 我要保修 </button>-->
+<!--          -->
+<!--        </script>-->
+<!--    </div>-->
+
+        <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
+
+    </div>
+</div>
+
+<script>
+    layui.use(['form', 'table','miniPage','element','rate'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            table = layui.table,
+            rate = layui.rate,
+            miniPage = layui.miniPage;
+        table.render({
+            elem: '#currentTableId',
+            url: 'comment/list',
+            toolbar: '#toolbarDemo',
+
+            defaultToolbar: ['filter', 'exports', 'print', {
+                title: '提示',
+                layEvent: 'LAYTABLE_TIPS',
+                icon: 'layui-icon-tips'
+            }],
+            cols: [[
+                {type: "checkbox", width: 50},
+                {field: 'id', width: 80, title: 'ID', sort: true},
+                {field: 'repairContent', width: 150, title: '维修内容'},
+                {field: 'comment', width: 100, title: '评论内容'},
+                {field: 'repairPersonnelName', width: 100, title: '维修人员'},
+                {field: 'score', width: 200, title: '评分',
+                    templet: function(d){
+                        return '<span  id="avgScore'+d.id+'"></span>'}
+                },
+                {field: 'createTime', width: 150,  title: '评论时间'},
+
+            ]],
+            done:function(res, curr, count){
+                var data = res.data;//返回的json中data数据
+                for (var item in data) {
+                    //司机星级
+                    rate.render({
+                        elem: '#avgScore'+data[item].id+''         //绑定元素
+                        , length: 5            //星星个数
+                        , value: data[item].score,
+                        text: true,
+                        setText: function (value) {
+                            if (value < 2) {
+                                this.span.text("差评")
+                            } else if (value <= 4) {
+                                this.span.text("中评")
+                            } else {
+                                this.span.text("好评")
+                            }
+                        }
+                        , readonly: true      //只读
+                    });
+
+                }
+            },
+            limits: [10, 15, 20, 25, 50, 100],
+            limit: 15,
+            page: true,
+            // skin: 'line',
+            id: 'testReload'
+        });
+
+        //获取费用类型 并渲染数据到select标签
+        // $.get("propertyType/queryAllBase",{},function (data) {
+        $.get("repairPersonnel/findAllPersonnel",{},function (data) {
+            var list=data.data;
+            var select = document.getElementById("repairPersonnelId");
+            if(list!=null || list.size()>0){
+                for(var c in list){
+                    var option=document.createElement("option");
+                    option.setAttribute("value",list[c].id);
+                    option.innerText=list[c].name;
+                    select.appendChild(option);
+                }
+            }
+            form.render('select');
+        },"json");
+
+
+
+
+        var $ = layui.$, active = {
+            reload: function(){
+                var repairPersonnelId = $('#repairPersonnelId');
+                var score = $('#score');
+                //执行重载
+                table.reload('testReload', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    ,where: {
+                        score:score.val(),
+                        repairPersonnelId:repairPersonnelId.val()
+                    }
+                }, 'data');
+            }
+        };
+
+        $('.demoTable .layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+        /**
+         * toolbar事件监听
+         */
+        table.on('toolbar(currentTableFilter)', function (obj) {
+            if (obj.event === 'add') {  // 监听删除操作
+
+                var content = miniPage.getHrefContent('page/other/addRepair.html');
+                var index = openPage(content, "我要保修", '60%', '60%');
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+
+            }
+        });
+
+
+
+        //监听表格复选框选择
+        table.on('checkbox(currentTableFilter)', function (obj) {
+            console.log(obj)
+        });
+
+
+
+
+
+    });
+</script>
+
+<style type="text/css">
+    .layui-table-cell {
+        height: auto;
+        line-height: 28px;
+    }
+</style>

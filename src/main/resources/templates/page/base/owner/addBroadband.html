@@ -1,0 +1,94 @@
+<div class="layuimini-main">
+
+    <div class="layui-form layuimini-form" lay-filter="updateSubmit">
+        <input type="hidden" name="ownerId">
+
+        <div class="layui-form-item">
+            <label class="layui-form-label required">宽带套餐</label>
+            <div class="layui-input-block">
+                <select name="typeId" lay-verify="required"  id="broadband" lay-search="">
+                    <option value="">请选择宽带套餐</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label required">办理月份</label>
+            <div class="layui-input-block">
+                <select name="broadbandNum" lay-verify="required"  id="broadband_over_time" lay-search="">
+                    <option value="1">办理1个月</option>
+                    <option value="2">办理2个月</option>
+                    <option value="3">办理3个月</option>
+                    <option value="4">办理4个月</option>
+                    <option value="5">办理5个月</option>
+                    <option value="6">办理6个月</option>
+                    <option value="7">办理7个月</option>
+                    <option value="8">办理8个月</option>
+                    <option value="9">办理9个月</option>
+                    <option value="10">办理10个月</option>
+                    <option value="11">办理11个月</option>
+                    <option value="12">办理12个月</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">是否自动续费</label>
+            <div class="layui-input-block">
+                <input type="checkbox" name="flagTitle" lay-skin="switch" lay-text="ON|OFF" checked>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn layui-btn-normal" lay-submit lay-filter="updateSubmit">确认办理</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['form', 'table','laydate'], function () {
+        var form = layui.form,
+            layer = layui.layer,
+            table = layui.table,
+            laydate=layui.laydate,
+            $ = layui.$;
+
+
+        form.render();
+        $.get("propertyType/queryAllBroadband",{},function (data) {
+            var list=data.data;
+            var select =document.getElementById("broadband");
+            if(list!=null || list.size()>0){
+                for(var c in list){
+                    var option=document.createElement("option");
+                    option.setAttribute("value",list[c].id);
+                    option.innerText=list[c].name +"/" + list[c].price + "/" + list[c].unit;
+                    select.appendChild(option);
+                    var selectTypeId=$("#typeIds").val();
+                    // //遍历选中状态
+                    // if(selectTypeId==list[c].id){
+                    //     option.setAttribute("selected","selected");
+                    //     layui.form.render('select');
+                    // }
+                }
+            }
+            form.render('select');
+        },"json");
+
+
+
+        // 当前弹出层，防止ID被覆盖
+        var parentIndex = layer.index;
+
+        //监听提交
+        form.on('submit(updateSubmit)', function (data) {
+            //获取表单中的数据信息
+            var datas=data.field;
+            console.log(datas)
+            addOrUpdateSubmit($,"broadband/addBroadband",datas);
+            return false;
+        });
+
+    });
+</script>

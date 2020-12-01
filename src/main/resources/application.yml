@@ -1,0 +1,46 @@
+
+server:
+  port: 8888
+  servlet:
+    context-path: /
+
+
+
+
+spring:
+  resources:
+    static-locations: classpath:/static/,classpath:/templates/
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://47.103.223.46:3306/estate?useUnicode=true&amp&characterEncoding=utf-8&serverTimezone=UTC
+    username: root
+    password: 123456
+  devtools:  # 热部署
+    livereload:
+      enabled: false
+  mail:
+    host: smtp.qq.com
+    username: 1227991378@qq.com
+    password: fmarefqgdfwshjec
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+  jackson: # 时间格式转化
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+
+# mybatis
+mybatis-plus:
+  type-aliases-package: com.yanzhen.model
+  mapper-locations: classpath:com/yanzhen/dao/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+loginIndex: http://www.xuxuanyao.cn:8888
+
