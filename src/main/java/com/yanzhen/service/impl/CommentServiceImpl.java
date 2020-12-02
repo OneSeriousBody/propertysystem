@@ -33,7 +33,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
 
     @Override
     public PageInfo<Comment> getCommentList(Integer page, Integer limit, Comment comment) {
-        PageHelper.startPage(page,limit);
+        PageHelper.startPage(page, limit);
         QueryWrapper<Comment> queryWrapper = new QueryWrapper<>();
         if (comment.getOwnerId() != null) {
             queryWrapper.eq("owner_id", comment.getOwnerId());

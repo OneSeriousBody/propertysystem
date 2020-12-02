@@ -102,6 +102,19 @@
             active[type] ? active[type].call(this) : '';
         });
 
+        table.on('tool(currentTableFilter)', function (obj) {
+            var data = obj.data;
+            if (obj.event === 'goPay') {
+                layer.confirm('确定要前往缴费吗？', function (index) {
+                    // console.log(data.id)
+                    window.location.href = "http://www.xuxuanyao.cn:8888/payment/payProperty?id=" + data.id
+                });
+
+
+            }
+
+        });
+
         // 监听搜索操作
         form.on('submit(data-search-btn)', function (data) {
             var result = JSON.stringify(data.field);

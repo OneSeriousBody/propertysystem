@@ -8,9 +8,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.yanzhen.dao.OwnerMapper;
-import com.yanzhen.model.Broadband;
-import com.yanzhen.model.Owner;
-import com.yanzhen.model.PropertyType;
+import com.yanzhen.model.*;
 import com.yanzhen.service.IOwnerService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
@@ -39,6 +37,15 @@ public class OwnerServiceImpl extends ServiceImpl<OwnerMapper, Owner> implements
 
     @Autowired
     private PropertyTypeServiceImpl propertyTypeService;
+
+    @Autowired
+    private ParkingServiceImpl parkingService;
+
+    @Autowired
+    private HouseServiceImpl houseService;
+
+    @Autowired
+    private UserinfoServiceImpl userinfoService;
 
     @Override
     public PageInfo<Owner> findOwnerAll(int page, int pagesize, Owner owner) {
@@ -79,6 +86,31 @@ public class OwnerServiceImpl extends ServiceImpl<OwnerMapper, Owner> implements
 
     @Override
     public int delete(Long id){
+        QueryWrapper<Parking> queryWrapper = new QueryWrapper<>();
+        Parking parking = parkingService.getOne(queryWrapper.eq("owner_id", id));
+        if (parking != null) {
+            parking.setStatus(0);
+            parking.setOwnerId(null);
+            parkingService.updateById(parking);
+        }
+
+        QueryWrapper<House> houseQueryWrapper = new QueryWrapper<>();
+        Owner owner = this.getById(id);
+        if (owner.getHouseId() != null) {
+            House house = houseService.getOne(houseQueryWrapper.eq("id", owner.getHouseId()));
+            if (house != null) {
+                house.setStatus(0);
+                house.setIntoDate(null);
+                houseService.updateById(house);
+            }
+        }
+        String username = owner.getUsername();
+        QueryWrapper<Userinfo> wrapper = new QueryWrapper<>();
+        Userinfo userinfo = userinfoService.getOne(wrapper.eq("username", username));
+        if (userinfo != null) {
+            userinfoService.removeById(userinfo.getId());
+        }
+
         return baseMapper.deleteById(id);
     }
 

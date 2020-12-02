@@ -1,5 +1,6 @@
 package com.yanzhen.model;
 
+import com.baomidou.mybatisplus.annotation.FieldStrategy;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -38,6 +39,7 @@ public class House implements Serializable {
     private Integer status;
 
     @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd")
+    @TableField(updateStrategy = FieldStrategy.IGNORED)
     private Date intoDate;
 
     private Integer buildingId;

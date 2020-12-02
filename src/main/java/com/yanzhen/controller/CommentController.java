@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @Author: xhh
@@ -74,6 +76,13 @@ public class CommentController {
             return R.ok();
         }
         return R.fail("修改失败");
+    }
+
+    @RequestMapping("/deleteByIds")
+    public R delete(String ids){
+        List<String> list= Arrays.asList(ids.split(","));
+        commentService.removeByIds(list);
+        return R.ok();
     }
 
 

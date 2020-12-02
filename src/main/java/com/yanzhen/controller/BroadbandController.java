@@ -1,5 +1,6 @@
 package com.yanzhen.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.pagehelper.PageInfo;
 import com.yanzhen.model.Broadband;
 
@@ -49,6 +50,19 @@ public class BroadbandController {
     @PostMapping("/addBroadband")
     public R addBroadband(@RequestBody Broadband broadband) {
         broadbandService.addBroadband(broadband);
+        return R.ok();
+    }
+
+    @PostMapping("/update")
+    public R updateBroadband(@RequestBody Broadband broadband) {
+        QueryWrapper<Broadband> queryWrapper = new QueryWrapper<>();
+        broadbandService.update(broadband, queryWrapper.eq("owner_id", broadband.getOwnerId()));
+        return R.ok();
+    }
+
+    @PostMapping("/updateByUser")
+    public R updateBroadbandByUser(@RequestBody Broadband broadband) {
+        broadbandService.updateById(broadband);
         return R.ok();
     }
 

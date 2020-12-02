@@ -27,6 +27,13 @@ public class MailServiceImpl  {
     @Value("${spring.mail.username}")
     private String from;
 
+    /**
+     * @Async的作用是开启异步
+     * @param to
+     * @param subject
+     * @param content
+     * @param cc
+     */
     @Async
     public void sendHtmlMail(String to, String subject, String content, String... cc)  {
 
@@ -34,8 +41,11 @@ public class MailServiceImpl  {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
         try {
+            // 发送邮件主题
             messageHelper.setSubject(subject);
+            // 发送者
             messageHelper.setFrom(from);
+            // 发送给谁
             messageHelper.setTo(to);
             messageHelper.setText(content, true);
         } catch (MessagingException e) {

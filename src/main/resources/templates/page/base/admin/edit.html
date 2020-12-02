@@ -3,12 +3,7 @@
     <div class="layui-form layuimini-form" lay-filter="updateSubmit">
         <div class="layui-form-item">
             <input type="hidden" name="id" id="userId"/>
-        <div class="layui-form-item">
-            <label class="layui-form-label required">老密码</label>
-            <div class="layui-input-block">
-                <input type="password" name="oldPwd" lay-verify="required"   class="layui-input">
-            </div>
-        </div>
+
 
             <div class="layui-form-item">
                 <label class="layui-form-label required">新密码</label>
@@ -51,11 +46,11 @@
                     url:"userinfo/update",
                     type:"POST",
                     // contentType:"application/json",
-                    data: {oldPwd:data.oldPwd,newPwd:data.newPwd,id:data.id},
+                    data: {newPwd:data.newPwd,id:data.id},
                     success:function(result){
                         console.log(result)
                         if(result.code==200){
-                            layer.msg("添加成功",{
+                            layer.msg("修改成功",{
                                 icon:6,
                                 time:500
                             },function(){

@@ -62,5 +62,5 @@ public interface INoticeService extends IService<Notice> {
      * @param limit
      * @return
      */
-    PageInfo<Notice> findPropertyTypeAll(Integer page, Integer limit);
+    PageInfo<Notice> findNoticeAll(Integer page, Integer limit);
 }

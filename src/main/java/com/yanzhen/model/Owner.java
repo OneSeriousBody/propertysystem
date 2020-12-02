@@ -76,6 +76,7 @@ public class Owner implements Serializable {
     private String broadbandFlagTitle;
 
     //房屋信息
+    @TableField(exist = false)
     private House house;
 
 

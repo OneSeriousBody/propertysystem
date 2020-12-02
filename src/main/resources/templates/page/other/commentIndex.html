@@ -12,16 +12,27 @@
                     <option value="5">好评</option>
                 </select>
             </div>
+
+            维修人员：
+            <div class="layui-inline">
+                <select name="repairPersonnelId"  id="repairPersonnelId" lay-verify="required" lay-search="">
+                    <option value="">选择维修人员</option>
+                </select>
+            </div>
+
             <button class="layui-btn" data-type="reload">搜索</button>
         </div>
 
-        <script type="text/html" id="toolbarDemo">
-            <button class="layui-btn layui-btn-sm layui-btn-danger data-delete-btn" lay-event="add"> 我要保修 </button>
-            </div>
-        </script>
+<!--        <script type="text/html" id="toolbarDemo">-->
+<!--            <button class="layui-btn layui-btn-sm layui-btn-danger data-delete-btn" lay-event="add"> 我要保修 </button>-->
+<!--            </div>-->
+<!--        </script>-->
 
         <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
-
+        <script type="text/html" id="currentTableBar">
+            <a class="layui-btn layui-btn-normal layui-btn-xs data-count-edit" lay-event="edit">修改</a>
+            <a class="layui-btn layui-btn-danger layui-btn-xs data-count-edit" lay-event="delete">删除</a>
+        </script>
     </div>
 </div>
 
@@ -52,7 +63,8 @@
                     templet: function(d){
                         return '<span  id="avgScore'+d.id+'"></span>'}
                 },
-                {field: 'createTime', width: 150,  title: '评论时间'},
+                {field: 'createTime', width: 150,  title: '评价时间'},
+                {title: '操作', minWidth: 150, toolbar: '#currentTableBar', align: "center"}
 
             ]],
             done:function(res, curr, count){
@@ -86,10 +98,9 @@
         });
 
 
-        //获取费用类型 并渲染数据到select标签
-        $.get("repair/queryAll",{},function (data) {
-            var list=data;
-            var select =document.getElementById("typeId");
+        $.get("repairPersonnel/findAllPersonnel",{},function (data) {
+            var list = data.data;
+            var select = document.getElementById("repairPersonnelId");
             if(list!=null || list.size()>0){
                 for(var c in list){
                     var option=document.createElement("option");
@@ -104,7 +115,7 @@
 
         var $ = layui.$, active = {
             reload: function(){
-                var comId = $('#typeId');
+                var repairPersonnelId = $('#repairPersonnelId');
                 var score = $('#score');
                 //执行重载
                 table.reload('testReload', {
@@ -113,6 +124,7 @@
                     }
                     ,where: {
                         score:score.val(),
+                        repairPersonnelId:repairPersonnelId.val()
                     }
                 }, 'data');
             }
@@ -124,17 +136,34 @@
         });
 
         /**
+         * 设计渲染form中的信息值
+         */
+        function setFormValues(data){
+            form.val("updateSubmit",{
+                "id":data.id,
+                "comment":data.comment
+            });
+        };
+
+        /**
          * toolbar事件监听
          */
-        table.on('toolbar(currentTableFilter)', function (obj) {
-            if (obj.event === 'add') {  // 监听删除操作
+        table.on('tool(currentTableFilter)', function (obj) {
+            var data = obj.data;
+            if (obj.event === 'edit') {
+                var content = miniPage.getHrefContent('page/other/editComment.html');
+                var index=openPage(content,"修改评价",'70%','70%');
 
-                var content = miniPage.getHrefContent('page/other/addRepair.html');
-                var index = openPage(content, "我要保修", '60%', '60%');
+                //渲染数据
+                setFormValues(data);
                 $(window).on("resize", function () {
                     layer.full(index);
                 });
-
+                return false;
+            } else if (obj.event === 'delete') {
+                layer.confirm('真的删除行么', function (index) {
+                    deleteByIds($,"comment/deleteByIds",data.id,index)
+                });
             }
         });
 

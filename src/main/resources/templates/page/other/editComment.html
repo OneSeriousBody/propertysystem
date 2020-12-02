@@ -1,0 +1,99 @@
+<div class="layuimini-main">
+
+    <div class="layui-form layuimini-form" lay-filter="updateSubmit">
+
+        <input type="hidden" name="id" class="layui-input">
+        <input type="hidden" name="repairPersonnelId"   class="layui-input">
+        <input type="hidden" name="repairId"   class="layui-input">
+
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label required" >评价内容</label>
+            <div class="layui-input-block">
+                <textarea name="comment" lay-verify="required"  class="layui-textarea" placeholder="请输入评价内容"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label required">评分</label>
+            <div class="layui-input-block">
+                <input type="hidden" name="score" required  id="score" class="layui-input">
+                <div  id="commentScore"></div>
+            </div>
+        </div>
+
+
+
+
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn layui-btn-normal" lay-submit lay-filter="updateSubmit">确认评价</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var score = 3 ;
+    layui.use(['form', 'table'], function () {
+        var form = layui.form,
+            layer = layui.layer,
+            table = layui.table,
+            $ = layui.$;
+
+        /**
+         * 初始化表单，要加上，不然刷新部分组件可能会不加载
+         */
+        form.render();
+
+
+        // 当前弹出层，防止ID被覆盖
+        var parentIndex = layer.index;
+
+        //监听提交
+        form.on('submit(updateSubmit)', function (data) {
+            // 获取表单中的数据信息
+
+            var datas = data.field;
+            if (score != undefined) {
+                datas.score = score
+            }
+            // console.log(datas)
+            addOrUpdateSubmit($,"comment/edit",datas);
+            return false;
+        });
+
+    });
+    layui.use('laydate', function () {
+        var laydate = layui.laydate;
+        //日期时间选择器
+        laydate.render({
+            elem: '#test5'
+            ,type: 'datetime'
+        });
+    })
+
+    layui.use('rate', function(){
+        var rate = layui.rate;
+
+        //渲染
+        var ins1 = rate.render({
+            elem: '#commentScore',  //绑定元素
+            text: true,           //显示文本，默认显示 '3.5星'
+            value: 3,
+            setText: function (value) {
+                if (value < 2) {
+                    this.span.text("差评")
+                } else if (value <= 4) {
+                    this.span.text("中评")
+                } else {
+                    this.span.text("好评")
+                }
+            },
+            choose: function (value) {
+                document.getElementsByName("score").value = value;
+                score = value
+                // alert(document.getElementsByName("score").value)
+            }
+
+        });
+    });
+</script>

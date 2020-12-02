@@ -97,7 +97,7 @@
         //获取费用类型 并渲染数据到select标签
         // $.get("propertyType/queryAllBase",{},function (data) {
         $.get("repairPersonnel/findAllPersonnel",{},function (data) {
-            var list=data.data;
+            var list = data.data;
             var select = document.getElementById("repairPersonnelId");
             if(list!=null || list.size()>0){
                 for(var c in list){

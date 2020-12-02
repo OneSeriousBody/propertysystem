@@ -30,6 +30,14 @@
             <a class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="delete">删除</a>
         </script>
 
+        <script type="text/html" id="statusTemp">
+            {{#  if(d.broadbandFlag == 1){ }}
+            <input type="checkbox" name="status" lay-skin="switch" checked   lay-text="开启|关闭" value= {{d.id}}    lay-filter="status" >
+            {{#  } else if(d.broadbandFlag == 0) { }}
+            <input type="checkbox" name="status" lay-skin="switch"  lay-text="开启|关闭" value= {{d.id}}  lay-filter="status" >
+            {{#  } }}
+        </script>
+
     </div>
 </div>
 
@@ -61,7 +69,7 @@
                 {field: 'broadbandPrice', width: 100, title: '宽带费用'},
                 {field: 'broadbandTime', width: 100, title: '办理时间'},
                 {field: 'broadbandOverTime', width: 100, title: '过期时间'},
-                {field: 'broadbandFlag', width: 100, title: '是否自动续费'},
+                {field: 'broadbandFlag', width: 100, title: '是否自动续费', templet:'#statusTemp'},
                 {templet:'<div>{{d.house.numbers}}</div>',width: 100, title: '房屋编号'},
                 {title: '操作', minWidth: 150, toolbar: '#currentTableBar', align: "center"}
             ]],
@@ -115,7 +123,30 @@
             return false;
         });
 
-        /**
+        form.on('switch(status)', function(data){
+                var id = data.value;
+                var status = this.checked ? '1' : '0';
+                console.log(id+"" , status)
+                $.ajax({
+                    type: 'POST',
+                    url: '/broadband/update/',
+                    contentType:'application/json',
+                    data:JSON.stringify({"ownerId" :id,"flag":status}) ,
+                    beforeSend:function(){
+                        index = layer.msg('正在切换中，请稍候',{icon: 16,time:false,shade:0.8});
+                    },
+                    error: function(data){
+                        console.log(data);
+                        layer.msg('数据异常，操作失败！');
+                    },
+                    success: function(data){
+                        layer.msg('操作成功！')
+                    },
+                });
+        });
+
+
+            /**
          * toolbar事件监听
          */
         table.on('toolbar(currentTableFilter)', function (obj) {

@@ -58,8 +58,10 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
     }
 
     @Override
-    public PageInfo<Notice> findPropertyTypeAll(Integer page, Integer limit) {
+    public PageInfo<Notice> findNoticeAll(Integer page, Integer limit) {
+        // 开启mybatis的分页
         PageHelper.startPage(page,limit);
+        // 从数据库查询公告数据
         List<Notice> notices = this.baseMapper.selectList(null);
         PageInfo<Notice> pageInfo = new PageInfo(notices);
 

@@ -41,6 +41,7 @@ public class ParkingController {
     public JsonObject queryParkAll(@RequestParam(defaultValue = "1") Integer page,
                                     @RequestParam(defaultValue = "15") Integer limit,
                                     String numbers){
+        // 查询所有停车位信息
         PageInfo<Parking> pageInfo= parkingService.findParkAll(page,limit,numbers);
         return new JsonObject(0,"ok",pageInfo.getTotal(),pageInfo.getList());
 
@@ -49,6 +50,7 @@ public class ParkingController {
     @PostMapping("/relationHouseholder")
     public R relationHouseholder(@RequestBody Parking parking) {
 
+        // 关联户主
         parkingService.relationHouseholder(parking);
         return R.ok();
     }
@@ -106,21 +108,5 @@ public class ParkingController {
 
 
 
-    @ApiOperation(value = "查询分页数据")
-    @ApiImplicitParams({
-        @ApiImplicitParam(name = "page", value = "页码"),
-        @ApiImplicitParam(name = "pageCount", value = "每页条数")
-    })
-    @GetMapping()
-    public IPage<Parking> findListByPage(@RequestParam Integer page,
-                                         @RequestParam Integer pageCount){
-        return parkingService.findListByPage(page, pageCount);
-    }
-
-    @ApiOperation(value = "id查询")
-    @GetMapping("{id}")
-    public Parking findById(@PathVariable Long id){
-        return parkingService.findById(id);
-    }
 
 }

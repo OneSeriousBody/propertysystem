@@ -14,5 +14,8 @@ public class Constants {
     public final static int STATUS_1 = 1;   // 禁用状态
 
     public final static String CACHE_NAME = "KACache";
+    public final static String PAY_CAR = "1";
+    public final static String PAY_BROADBAND = "2";
+    public final static String PAY_PROPERTY = "3";
 
 }

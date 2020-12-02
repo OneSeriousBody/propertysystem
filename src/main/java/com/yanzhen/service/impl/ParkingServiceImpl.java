@@ -41,6 +41,7 @@ public class ParkingServiceImpl extends ServiceImpl<ParkingMapper, Parking> impl
 
     @Override
     public PageInfo<Parking> findParkAll(int page, int pageSize, String numbers) {
+        // 开启分页
         PageHelper.startPage(page,pageSize);
         //查询的结果集
         List<Parking> list=parkingDao.queryParkAll(numbers);
@@ -88,23 +89,32 @@ public class ParkingServiceImpl extends ServiceImpl<ParkingMapper, Parking> impl
 
     @Override
     public void relationHouseholder(Parking parking) {
-
+        // 设置当前的停车场已经有人了
         parking.setStatus(1);
         this.updateById(parking);
+        // 创建一个车位收费实体类
         Carcharge carcharge = new Carcharge();
         Date date = new Date();
         Date overDate = DateUtils.addMonths(date, parking.getParkUseMonth());
         carcharge.setPayDate(date);
+        // 设置停车位使用了几个月
         carcharge.setEndDate(overDate);
+        // 设置状态为未交费
         carcharge.setStatus(0);
+        // 设置当前的用户id
         carcharge.setOwnerId(parking.getOwnerId());
         carcharge.setRemarks("无");
+        // 设置停车费对应的车位id
         carcharge.setParkId(parking.getId());
         carcharge.setType("停车费");
+        // 从PropertyType获取停车费用一个月多少钱
         PropertyType propertyType = propertyTypeService.getById(4);
+        // 获取停车费
         Double price = propertyType.getPrice();
         Double totalPrice = price * parking.getParkUseMonth();
+        // 设置停车费用
         carcharge.setMoney(totalPrice);
+        // 加入到数据库
         carchargeService.add(carcharge);
     }
 

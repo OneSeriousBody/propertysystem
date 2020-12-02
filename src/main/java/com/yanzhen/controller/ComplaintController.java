@@ -103,6 +103,8 @@ public class ComplaintController {
     public R update(Integer id){
          Complaint complaint=new Complaint();
          complaint.setId(id);
+         complaint.setClr(1);
+         complaint.setHandleDate(new Date());
          complaint.setStatus(1);
 //         complaint.setClr()
         int num= complaintService.updateData(complaint);

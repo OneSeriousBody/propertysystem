@@ -75,13 +75,10 @@ public class UserinfoController {
     public R update(String oldPwd,String newPwd,Integer id){
         //根据id获取当前的数据记录
         Userinfo user=userinfoService.findById(new Long(id));
-        if(oldPwd.equals(user.getPassword())){//输入的老密码和原密码一致
-            user.setPassword(newPwd);
-            userinfoService.updateData(user);
-            return R.ok();
-        }else{
-            return R.fail("两次密码不一致");
-        }
+        user.setPassword(newPwd);
+        userinfoService.updateData(user);
+        return R.ok();
+
     }
 
     @ApiOperation(value = "查询分页数据")

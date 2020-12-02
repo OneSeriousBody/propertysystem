@@ -53,14 +53,18 @@ public class NoticeController {
     @ApiOperation(value = "新增")
     @PostMapping("/add")
     public R add(@RequestBody Notice notice){
+        // 将公告添加到数据库
         int num = noticeService.add(notice);
         if (num > 0) {
+            // 获取所有业主信息
+            List<Owner> list = ownerService.list();
+            list.forEach(owner -> {
+                // 发送邮件给业主，通知有新的公告。
+                mailService.sendHtmlMail(owner.getEmail(), "新公告", "您还有一个新的公告未看，请点击链接前往官网观看，<a href="+ loginIndex +">链接</a>", null);
+            });
             return R.ok();
         }
-        List<Owner> list = ownerService.list();
-        list.forEach(owner -> {
-            mailService.sendHtmlMail(owner.getEmail(), "新公告", "您还有一个新的公告未看，请点击链接前往官网观看，<a href="+ loginIndex +">链接</a>", null);
-        });
+
         return R.fail("新增失败");
 
     }
@@ -90,8 +94,10 @@ public class NoticeController {
     @GetMapping("/findAllNotice")
     public JsonObject findAllNotice(@RequestParam(defaultValue = "1") Integer page,
                                     @RequestParam(defaultValue = "15") Integer limit) {
-        PageInfo<Notice> pageInfo =  noticeService.findPropertyTypeAll(page, limit);
+        // 查找全局数据。
+        PageInfo<Notice> pageInfo =  noticeService.findNoticeAll(page, limit);
 
+        // 将查询出来的数据返回到前端。
         return new JsonObject(0,"ok",pageInfo.getTotal(),pageInfo.getList());
 
     }
