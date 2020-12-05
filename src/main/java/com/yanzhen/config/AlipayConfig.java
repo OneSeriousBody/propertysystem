@@ -18,7 +18,7 @@ public class AlipayConfig {
     public static String alipay_public_key = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAhkXbe2PCeJmDBWJefKKcA3wzeFOEwQWnDCJV0G0Ui9Pt+qy6SHkP++zPkU3SDYgxXg4eN6KhVaHrG2RJ13nOgdiBlJbngDmkqyksE/g6wUIBn1SHAAdhk4fI07hE+TbJPrY72Qq96yyoIbz3CI0qZlimrS1mQIZWX492Y0AotFBBn7/1Ht1w9XCB5rJkOSj5znm82eUdLwLVZ7dDESno9Vsf/HQ9wBO+PZdJG0VDxCnb3G83hxUriUi+6IVNtyNBLBHU2w8TOMkDc3+3vX1s3caZhAHwMndrTZUByIb+YQnEhlePPzCjho7XPhYXcWngILS7t3InF9XexSLMO4NhVQIDAQAB";
 
     // 服务器异步通知页面路径  需http://格式的完整路径，不能加?id=123这类自定义参数，必须外网可以正常访问
-    public static String notify_url = "http://localhost:8888/payment/alipayNotifyNotice";
+    public static String notify_url = "http://www.xuxuanyao.cn:8888/payment/alipayNotifyNotice";
 
     // 页面跳转同步通知页面路径 需http://格式的完整路径，不能加?id=123这类自定义参数，必须外网可以正常访问
     public static String return_url = "http://www.xuxuanyao.cn:8888/payment/alipayReturnNotice";
