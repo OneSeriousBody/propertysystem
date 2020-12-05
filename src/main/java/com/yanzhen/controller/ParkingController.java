@@ -27,7 +27,6 @@ import java.util.List;
  * @author kappy
  * @since 2020-10-28
  */
-@Api(tags = {""})
 @RestController
 @RequestMapping("/parking")
 public class ParkingController {
@@ -47,6 +46,11 @@ public class ParkingController {
 
     }
 
+    /**
+     * 关联到对应的户主
+     * @param parking
+     * @return
+     */
     @PostMapping("/relationHouseholder")
     public R relationHouseholder(@RequestBody Parking parking) {
 

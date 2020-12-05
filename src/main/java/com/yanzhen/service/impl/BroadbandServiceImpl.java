@@ -32,21 +32,27 @@ public class BroadbandServiceImpl extends ServiceImpl<BroadbandMapper, Broadband
 
     @Override
     public void addBroadband(Broadband broadband) {
-
+        // 获取宽带办理的时间
         Integer broadbandNum = broadband.getBroadbandNum();
         Date date = new Date();
         Date overTime = DateUtils.addMonths(date, broadbandNum);
         broadband.setCreateTime(date);
+        // 设置宽带的过期时间
         broadband.setOverTime(overTime);
+        // 获取对应的宽带类型对应的价格
         PropertyType propertyType = propertyTypeService.getById(broadband.getTypeId());
+        // 设置宽带对应的价格
         broadband.setPrice(propertyType.getPrice() * broadbandNum);
+        // 设置办理的宽带业务名称
         broadband.setName(propertyType.getName());
+        // 判断是否需要自动续费
         String broadbandFlagTitle = broadband.getFlagTitle();
         if (StringUtils.equalsIgnoreCase("on", broadbandFlagTitle)) {
             broadband.setFlag(1);
         } else {
             broadband.setFlag(0);
         }
+        // 设置状态为未付款
         broadband.setStatus(0);
         this.save(broadband);
 
@@ -69,6 +75,7 @@ public class BroadbandServiceImpl extends ServiceImpl<BroadbandMapper, Broadband
     @Override
     public PageInfo<Broadband> queryBroadbandByOwnerId(Integer page, Integer limit, Broadband broadband) {
         PageHelper.startPage(page,limit);
+        // 从数据库找到对应的业主宽带数据
         List<Broadband> list = this.list(new QueryWrapper<Broadband>().eq("owner_id", broadband.getOwnerId()));
         PageInfo<Broadband> pageInfo = new PageInfo(list);
         return pageInfo;

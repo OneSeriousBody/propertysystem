@@ -1,5 +1,6 @@
 package com.yanzhen.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -10,6 +11,7 @@ import com.yanzhen.dao.ComplaintMapper;
 import com.yanzhen.model.Carcharge;
 import com.yanzhen.model.Complaint;
 import com.yanzhen.model.ComplaintType;
+import com.yanzhen.model.Tongji;
 import com.yanzhen.service.IComplaintService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -66,5 +68,12 @@ public class ComplaintServiceImpl extends ServiceImpl<ComplaintMapper, Complaint
     @Override
     public Complaint findById(Long id){
         return  baseMapper.selectById(id);
+    }
+
+    @Override
+    public List<Tongji> complaintStatistics() {
+
+        return complaintDao.getCountGroupByComId();
+
     }
 }

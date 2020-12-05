@@ -40,8 +40,9 @@ public class AlipayServiceImpl implements AlipayService {
         //商户订单号，后台可以写一个工具类生成一个订单号，必填
 //        String order_number = new String(UUID.randomUUID().toString());
         String orderNumber = id.toString() + "," + Constants.PAY_CAR;
-        //付款金额，从前台获取，必填
+        //通过id获取停车费的实体类.
         Carcharge carcharge = carchargeService.findById(id.longValue());
+        // 设置订单金额
         String total_amount = String.valueOf(carcharge.getMoney());
         //订单名称，必填
         String subject = new String("支付车位费");
@@ -63,6 +64,7 @@ public class AlipayServiceImpl implements AlipayService {
         String total_amount = String.valueOf(broadband.getPrice());
         //订单名称，必填
         String subject = new String("支付宽带费");
+        // 设置订单的一些基本属性
         String bizContent = "{\"out_trade_no\":\"" + orderNumber + "\","
                 + "\"total_amount\":\"" + total_amount + "\","
                 + "\"subject\":\"" + subject + "\","
@@ -112,7 +114,7 @@ public class AlipayServiceImpl implements AlipayService {
         } catch (AlipayApiException e) {
             e.printStackTrace();
         }
-        //输出
+        //输出,跳转到支付宝支付页面.
         out.println(result);
     }
 

@@ -185,33 +185,6 @@ public class RecordsController {
 
 
 
-//
-//    @ApiOperation(value = "更新")
-//    @RequestMapping("/update")
-//    public R update(@RequestBody Building building){
-//        int num=buildingService.updateData(building);
-//        if(num>0){
-//            return R.ok("修改成功",null);
-//        }else{
-//            return R.fail("修改失败");
-//        }
-//    }
-//
-//    @ApiOperation(value = "查询分页数据")
-//    @ApiImplicitParams({
-//        @ApiImplicitParam(name = "page", value = "页码"),
-//        @ApiImplicitParam(name = "pageCount", value = "每页条数")
-//    })
-//    @GetMapping()
-//    public IPage<Building> findListByPage(@RequestParam Integer page,
-//                                          @RequestParam Integer pageCount){
-//        return buildingService.findListByPage(page, pageCount);
-//    }
-//
-//    @ApiOperation(value = "id查询")
-//    @GetMapping("{id}")
-//    public Building findById(@PathVariable Long id){
-//        return buildingService.findById(id);
-//    }
+
 
 }

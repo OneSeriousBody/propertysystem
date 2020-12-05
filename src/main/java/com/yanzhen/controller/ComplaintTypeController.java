@@ -56,21 +56,6 @@ public class ComplaintTypeController {
         return complaintTypeService.updateData(complaintType);
     }
 
-    @ApiOperation(value = "查询分页数据")
-    @ApiImplicitParams({
-        @ApiImplicitParam(name = "page", value = "页码"),
-        @ApiImplicitParam(name = "pageCount", value = "每页条数")
-    })
-    @GetMapping()
-    public IPage<ComplaintType> findListByPage(@RequestParam Integer page,
-                                               @RequestParam Integer pageCount){
-        return complaintTypeService.findListByPage(page, pageCount);
-    }
 
-    @ApiOperation(value = "id查询")
-    @GetMapping("{id}")
-    public ComplaintType findById(@PathVariable Long id){
-        return complaintTypeService.findById(id);
-    }
 
 }

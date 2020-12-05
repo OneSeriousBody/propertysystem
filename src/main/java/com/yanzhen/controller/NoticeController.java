@@ -102,21 +102,5 @@ public class NoticeController {
 
     }
 
-    @ApiOperation(value = "查询分页数据")
-    @ApiImplicitParams({
-        @ApiImplicitParam(name = "page", value = "页码"),
-        @ApiImplicitParam(name = "pageCount", value = "每页条数")
-    })
-    @GetMapping()
-    public IPage<Notice> findListByPage(@RequestParam Integer page,
-                                        @RequestParam Integer pageCount){
-        return noticeService.findListByPage(page, pageCount);
-    }
-
-    @ApiOperation(value = "id查询")
-    @GetMapping("{id}")
-    public Notice findById(@PathVariable Long id){
-        return noticeService.findById(id);
-    }
 
 }

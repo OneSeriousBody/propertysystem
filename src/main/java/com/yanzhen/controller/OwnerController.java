@@ -117,16 +117,5 @@ public class OwnerController {
         }
     }
 
-    @GetMapping()
-    public IPage<Owner> findListByPage(@RequestParam Integer page,
-                                       @RequestParam Integer pageCount){
-        return ownerService.findListByPage(page, pageCount);
-    }
-
-    @ApiOperation(value = "id查询")
-    @GetMapping("{id}")
-    public Owner findById(@PathVariable Long id){
-        return ownerService.findById(id);
-    }
 
 }

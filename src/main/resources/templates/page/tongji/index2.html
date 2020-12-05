@@ -27,7 +27,7 @@
          */
 
         $.ajax({
-            url:"repair/queryTongJi",
+            url:"complaint/complaintStatistics",
             type:"POST",
             dataType:"json",
             success:function(data){
@@ -51,7 +51,7 @@
                 var echartsPies = echarts.init(document.getElementById('echarts-pies'), 'walden');
                 var optionPies = {
                     title: {
-                        text: '指标名称-玫瑰图',
+                        text: '投诉类型统计图',
                         left: 'center'
                     },
                     tooltip: {
@@ -61,10 +61,10 @@
 
                     series: [
                         {
-                            name: '访问来源',
+                            name: '投诉类型',
                             type: 'pie',
                             radius: '55%',
-                            center: ['50%', '60%'],
+                            center: ['50%', '50%'],
                             roseType: 'radius',
                             data:JSON.parse(data2),
                             emphasis: {

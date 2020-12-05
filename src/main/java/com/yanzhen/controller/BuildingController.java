@@ -38,7 +38,13 @@ public class BuildingController {
     @Resource
     private IBuildingService buildingService;
 
-
+    /**
+     * 查询全部房屋
+     * @param page
+     * @param limit
+     * @param numbers
+     * @return
+     */
     @RequestMapping("/queryBuildAll")
     public JsonObject queryBuildAll(@RequestParam(defaultValue = "1") Integer page,
                                     @RequestParam(defaultValue = "15") Integer limit,
@@ -59,6 +65,11 @@ public class BuildingController {
     }
 
 
+    /**
+     * 新增建筑
+     * @param building
+     * @return
+     */
     @ApiOperation(value = "新增")
     @RequestMapping("/add")
     public R add(@RequestBody Building building){
@@ -71,6 +82,11 @@ public class BuildingController {
 
     }
 
+    /**
+     * 删除建筑
+     * @param ids
+     * @return
+     */
     @ApiOperation(value = "删除")
     @RequestMapping("/deleteByIds")
     public R delete(String  ids){
@@ -82,6 +98,11 @@ public class BuildingController {
         return R.ok();
     }
 
+    /**
+     * 更新建筑
+     * @param building
+     * @return
+     */
     @ApiOperation(value = "更新")
     @RequestMapping("/update")
     public R update(@RequestBody Building building){
@@ -93,21 +114,6 @@ public class BuildingController {
         }
     }
 
-    @ApiOperation(value = "查询分页数据")
-    @ApiImplicitParams({
-        @ApiImplicitParam(name = "page", value = "页码"),
-        @ApiImplicitParam(name = "pageCount", value = "每页条数")
-    })
-    @GetMapping()
-    public IPage<Building> findListByPage(@RequestParam Integer page,
-                                          @RequestParam Integer pageCount){
-        return buildingService.findListByPage(page, pageCount);
-    }
 
-    @ApiOperation(value = "id查询")
-    @GetMapping("{id}")
-    public Building findById(@PathVariable Long id){
-        return buildingService.findById(id);
-    }
 
 }

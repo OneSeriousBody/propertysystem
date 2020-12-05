@@ -85,29 +85,7 @@ public class PropertyInfoController {
     }
 
 
-    @ApiOperation(value = "新增")
-    @RequestMapping("/initData")
-    public R initData(@RequestBody PropertyInfo propertyInfo){
-        //获取开始时间  结束时间  备注
-        List<House> list=houseService.findList();
-        for(House house:list){
-           //查询物业费收费的标准  建议 物业收费类型通过前台传值
-            PropertyType type=propertyTypeService.findById(new Long(1));
-            double price=type.getPrice();//收费标准
-            Integer status= house.getStatus();
-            if(status!=null || status!=0){//如果已经收房
-                  //物业费
-              double money=  house.getArea()*price;
-                propertyInfo.setMoney(money);
-                propertyInfo.setHouseId(house.getId());
-                propertyInfo.setStatus(0);
-                propertyInfo.setTypeId(1);
-                propertyInfoService.add(propertyInfo);
-            }
-        }
 
-        return R.ok();
-    }
 
 
 
@@ -138,21 +116,5 @@ public class PropertyInfoController {
         return R.fail("失败");
     }
 
-    @ApiOperation(value = "查询分页数据")
-    @ApiImplicitParams({
-        @ApiImplicitParam(name = "page", value = "页码"),
-        @ApiImplicitParam(name = "pageCount", value = "每页条数")
-    })
-    @GetMapping()
-    public IPage<PropertyInfo> findListByPage(@RequestParam Integer page,
-                                              @RequestParam Integer pageCount){
-        return propertyInfoService.findListByPage(page, pageCount);
-    }
-
-    @ApiOperation(value = "id查询")
-    @GetMapping("{id}")
-    public PropertyInfo findById(@PathVariable Long id){
-        return propertyInfoService.findById(id);
-    }
 
 }

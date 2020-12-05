@@ -53,6 +53,7 @@ public class SchedulingTask {
     public void automaticRenewal() {
         QueryWrapper<Broadband> queryWrapper = new QueryWrapper<>();
         Date date = DateUtils.addDays(new Date(), +1);
+        // 格式化时间
         String format = DateFormatUtils.format(date, "yyyy-MM-dd");
         // 查询出即将过期且需要自动续费的宽带列表
         List<Broadband> list = broadbandService.list(queryWrapper.eq("flag", 1).eq("over_time", format));
@@ -69,8 +70,11 @@ public class SchedulingTask {
             newBroadband.setFlag(1);
             newBroadband.setTypeId(typeId);
             newBroadband.setName(propertyType.getName());
+            // 设置价格
             newBroadband.setPrice(propertyType.getPrice());
+            // 设置创建时间
             newBroadband.setCreateTime(broadband.getOverTime());
+            // 设置过期时间为上次过期时间+1
             newBroadband.setOverTime(DateUtils.addMonths(broadband.getOverTime(), +1));
             broadbandService.save(newBroadband);
 
@@ -89,6 +93,7 @@ public class SchedulingTask {
         List<Broadband> broadbands = broadbandService.list(queryWrapper.eq("over_time", format));
         broadbands.forEach(broadband -> {
             broadband.setStatus(2);
+            // 更新宽带的状态为过期状态
             broadbandService.updateById(broadband);
             Owner owner = ownerService.getById(broadband.getOwnerId());
             // 发送宽带已经过期了，让业主进行续费。
@@ -108,8 +113,9 @@ public class SchedulingTask {
             Parking parking = parkingService.getById(parkId);
             parking.setStatus(0);
             parking.setOwnerId(null);
+            // 更新停车长的位置为未使用
             parkingService.updateById(parking);
-            // 发送宽带已经过期了，让业主进行续费。
+            // 发送停车位已经过期了，让业主进行续费的停球。
             mailService.sendHtmlMail(owner.getEmail(), "停车位过期","您的停车位已经过期，如需办理，可前往物业重新办理",  null);
         });
 

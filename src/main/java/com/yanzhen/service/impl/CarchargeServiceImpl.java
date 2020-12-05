@@ -31,7 +31,9 @@ public class CarchargeServiceImpl extends ServiceImpl<CarchargeMapper, Carcharge
 
     @Override
     public PageInfo<Carcharge> findCarchargeAll(int page, int pagesise, Carcharge carcharge) {
+        // 开启分页
         PageHelper.startPage(page,pagesise);
+        // 从数据库查询对应的数据。
         List<Carcharge> list=carchargeDao.queryCarChargeAll(carcharge);
         PageInfo<Carcharge> pageInfo=new PageInfo(list);
         return pageInfo;

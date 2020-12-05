@@ -45,6 +45,12 @@ public class PropertyTypeController {
         return new JsonObject(0,"ok",pageInfo.getTotal(),pageInfo.getList());
     }
 
+    /**
+     * 查询宽带套餐
+     * @param page
+     * @param limit
+     * @return
+     */
     @RequestMapping("/queryAllBroadband")
     public JsonObject queryAllBroadband(@RequestParam(defaultValue = "1") Integer page,
                                 @RequestParam(defaultValue = "15") Integer limit){
@@ -53,6 +59,12 @@ public class PropertyTypeController {
     }
 
 
+    /**
+     * 查询水电费
+     * @param page
+     * @param limit
+     * @return
+     */
     @RequestMapping("/queryAllBase")
     public JsonObject queryAllBase(@RequestParam(defaultValue = "1") Integer page,
                                         @RequestParam(defaultValue = "15") Integer limit){
@@ -93,21 +105,6 @@ public class PropertyTypeController {
         return R.fail("更新失败");
     }
 
-    @ApiOperation(value = "查询分页数据")
-    @ApiImplicitParams({
-        @ApiImplicitParam(name = "page", value = "页码"),
-        @ApiImplicitParam(name = "pageCount", value = "每页条数")
-    })
-    @GetMapping()
-    public IPage<PropertyType> findListByPage(@RequestParam Integer page,
-                                              @RequestParam Integer pageCount){
-        return propertyTypeService.findListByPage(page, pageCount);
-    }
 
-    @ApiOperation(value = "id查询")
-    @GetMapping("{id}")
-    public PropertyType findById(@PathVariable Long id){
-        return propertyTypeService.findById(id);
-    }
 
 }

@@ -58,38 +58,60 @@ public class CarchargeController {
     private String loginIndex;
 
 
+    /**
+     * 查询全部停车费用列表
+     * @param carcharge
+     * @param numbers
+     * @param page
+     * @param limit
+     * @return
+     */
     @RequestMapping("/queryCarchargeAll")
     public JsonObject queryCarchargeAll(Carcharge carcharge,String numbers,
                                        @RequestParam(defaultValue = "1") Integer page,
                                         @RequestParam(defaultValue = "15") Integer limit){
-       if(numbers!=null){
-           Parking parking=new Parking();
-           parking.setNumbers(numbers);
-           carcharge.setParking(parking);
-       }
-
+        // 是否要查找对应的车位号
+        if(numbers!=null){
+            Parking parking=new Parking();
+            parking.setNumbers(numbers);
+            carcharge.setParking(parking);
+        }
+       // 查询停车费用
         PageInfo<Carcharge> pageInfo=carchargeService.findCarchargeAll(page,limit,carcharge);
         return new JsonObject(0,"ok",pageInfo.getTotal(),pageInfo.getList());
 
     }
 
-
+    /**
+     * 查询对应业主的停车费用列表
+     * @param carcharge
+     * @param request
+     * @param page
+     * @param limit
+     * @return
+     */
     @RequestMapping("/queryCarchargeAll2")
     public JsonObject queryCarchargeAll2(Carcharge carcharge, HttpServletRequest request,
                                         @RequestParam(defaultValue = "1") Integer page,
                                          @RequestParam(defaultValue = "15") Integer limit){
-
+        // 从session获取用户的登录数据
         Userinfo userinfo= (Userinfo) request.getSession().getAttribute("user");
         String username=userinfo.getUsername();
         //根据username获取登录账号得业主id
         Owner owner=ownerService.queryOwnerByName(username);
         Integer userId=owner.getId();
         carcharge.setOwnerId(userId);
+        // 查询对应业主的停车费用列表
         PageInfo<Carcharge> pageInfo=carchargeService.findCarchargeAll(page,limit,carcharge);
         return new JsonObject(0,"ok",pageInfo.getTotal(),pageInfo.getList());
 
     }
 
+    /**
+     * 发送短信给对应的用户通知其进行缴费
+     * @param ownerId
+     * @return
+     */
     @PostMapping("/urgingPayment")
     public R urgingPayment(Integer ownerId){
         Owner owner = ownerService.getById(ownerId);
@@ -99,26 +121,11 @@ public class CarchargeController {
     }
 
 
-
-    @ApiOperation(value = "新增")
-    @RequestMapping("/initData")
-    public R InitData(@RequestBody Carcharge carcharge){
-        /**
-         * 遍历所有得已在使用得车位信息
-         */
-        List<Parking> parkingList=parkingService.queryParkingByStatus();
-        for(Parking park:parkingList){
-            carcharge.setStatus(0);
-            carcharge.setOwnerId(park.getOwnerId());
-            carcharge.setType("停车费");
-            carcharge.setParkId(park.getId());
-            carchargeService.add(carcharge);
-        }
-       return R.ok();
-
-    }
-
-    @ApiOperation(value = "删除")
+    /**
+     * 删除数据
+     * @param ids
+     * @return
+     */
     @RequestMapping("/deleteByIds")
     public R delete(String ids){
         List<String> list= Arrays.asList(ids.split(","));
@@ -129,11 +136,16 @@ public class CarchargeController {
         return R.ok();
     }
 
-    @ApiOperation(value = "更新")
+    /**
+     * 更新数据
+     * @param id
+     * @return
+     */
     @RequestMapping("/update")
     public R update(Integer id){
         Carcharge carcharge =new Carcharge();
         carcharge.setId(id);
+        // 设置缴费状态为已经缴费
         carcharge.setStatus(1);
         int num=carchargeService.updateData(carcharge);
         if(num>0){
@@ -142,21 +154,6 @@ public class CarchargeController {
         return R.fail("失败");
     }
 
-    @ApiOperation(value = "查询分页数据")
-    @ApiImplicitParams({
-        @ApiImplicitParam(name = "page", value = "页码"),
-        @ApiImplicitParam(name = "pageCount", value = "每页条数")
-    })
-    @GetMapping()
-    public IPage<Carcharge> findListByPage(@RequestParam Integer page,
-                                           @RequestParam Integer pageCount){
-        return carchargeService.findListByPage(page, pageCount);
-    }
 
-    @ApiOperation(value = "id查询")
-    @GetMapping("{id}")
-    public Carcharge findById(@PathVariable Long id){
-        return carchargeService.findById(id);
-    }
 
 }

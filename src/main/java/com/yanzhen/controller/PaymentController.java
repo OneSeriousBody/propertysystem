@@ -45,6 +45,13 @@ public class PaymentController {
     private RecordsServiceImpl recordsService;
 
 
+    /**
+     * 停车费用支付
+     * @param response
+     * @param request
+     * @param id
+     * @param flag
+     */
     @GetMapping("/goPay")
     public void payMent(HttpServletResponse response, HttpServletRequest request, Integer id, Integer flag) {
         try {
@@ -54,6 +61,13 @@ public class PaymentController {
         }
     }
 
+    /**
+     * 支付宽带费
+     * @param response
+     * @param request
+     * @param id
+     * @param flag
+     */
     @GetMapping("/payBroadband")
     public void payBroadband(HttpServletResponse response, HttpServletRequest request, Integer id, Integer flag) {
         try {
@@ -63,6 +77,13 @@ public class PaymentController {
         }
     }
 
+    /**
+     * 支付水电费
+     * @param response
+     * @param request
+     * @param id
+     * @param flag
+     */
     @GetMapping("/payProperty")
     public void payProperty(HttpServletResponse response, HttpServletRequest request, Integer id, Integer flag) {
         try {
@@ -73,7 +94,13 @@ public class PaymentController {
     }
 
 
-
+    /**
+     * 支付完成之后会执行这个请求
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     @RequestMapping(value = "/alipayReturnNotice")
     @ResponseBody
     public String alipayReturnNotice(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -100,12 +127,12 @@ public class PaymentController {
         ModelAndView mv = new ModelAndView("/login");
 
         if(signVerified) {
-
+            // 获取订单号
             String out_trade_no = new String(request.getParameter("out_trade_no").getBytes("ISO-8859-1"),"UTF-8");
 
 
 //            String id = new String(request.getParameter("id").getBytes("ISO-8859-1"),"UTF-8");
-
+            // 火气金额
             String total_amount = new String(request.getParameter("total_amount").getBytes("ISO-8859-1"),"UTF-8");
 
 //            String flag = new String(request.getParameter("flag").getBytes("ISO-8859-1"), "UTF-8");
@@ -113,19 +140,23 @@ public class PaymentController {
             String[] split = out_trade_no.split(",");
             String id = split[0];
             String flag = split[1];
+            // 判断是那种支付，是支付停车费还是宽带费,还是物业费
             if (flag.equals(Constants.PAY_CAR)) {
                 Carcharge carcharge = new Carcharge();
                 carcharge.setId(Integer.parseInt(id));
+                // 修改状态为已经支付
                 carcharge.setStatus(1);
                 carchargeService.updateById(carcharge);
             } else if (flag.equals(Constants.PAY_BROADBAND)) {
                 Broadband broadband = new Broadband();
                 broadband.setId(Integer.parseInt(id));
+                // 修改状态为已经支付
                 broadband.setStatus(1);
                 broadbandService.updateById(broadband);
             } else if (flag.equals(Constants.PAY_PROPERTY)) {
                 Records records = new Records();
                 records.setId(Integer.parseInt(id));
+                // 修改状态为已经支付
                 records.setStatus(1);
                 recordsService.updateById(records);
             }
@@ -143,6 +174,7 @@ public class PaymentController {
         }else {
             log.info("支付, 验签失败...");
         }
+        // 重定向回首页
         response.sendRedirect(request.getContextPath()+"/index.html");
 
         return "success";

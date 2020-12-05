@@ -6,6 +6,7 @@ import com.github.pagehelper.PageInfo;
 import com.yanzhen.model.Carcharge;
 import com.yanzhen.model.Complaint;
 import com.yanzhen.model.ComplaintType;
+import com.yanzhen.model.Tongji;
 
 import java.util.List;
 
@@ -62,4 +63,10 @@ public interface IComplaintService extends IService<Complaint> {
      * @return Complaint
      */
     Complaint findById(Long id);
+
+    /**
+     * 从数据库获取对应投诉类型的数据
+     * @return
+     */
+    List<Tongji> complaintStatistics();
 }

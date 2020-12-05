@@ -69,6 +69,9 @@ public class ComplaintController {
 
 
 
+
+
+
     @ApiOperation(value = "新增")
     @RequestMapping("/add")
     public R add(@RequestBody Complaint complaint,HttpServletRequest request)
@@ -115,21 +118,17 @@ public class ComplaintController {
         }
     }
 
-    @ApiOperation(value = "查询分页数据")
-    @ApiImplicitParams({
-        @ApiImplicitParam(name = "page", value = "页码"),
-        @ApiImplicitParam(name = "pageCount", value = "每页条数")
-    })
-    @GetMapping()
-    public IPage<Complaint> findListByPage(@RequestParam Integer page,
-                                           @RequestParam Integer pageCount){
-        return complaintService.findListByPage(page, pageCount);
+    /**
+     * 获取统计的数据
+     * @return
+     */
+    @PostMapping("/complaintStatistics")
+    public List<Tongji> complaintStatistics() {
+        List<Tongji> complaintStatistics = complaintService.complaintStatistics();
+        return complaintStatistics;
     }
 
-    @ApiOperation(value = "id查询")
-    @GetMapping("{id}")
-    public Complaint findById(@PathVariable Long id){
-        return complaintService.findById(id);
-    }
+
+
 
 }

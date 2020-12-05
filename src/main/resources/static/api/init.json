@@ -106,7 +106,7 @@
               "target": "_self"
             },
             {
-              "title": "管理员管理",
+              "title": "用户管理",
               "href": "page/base/admin/index.html",
               "icon": "fa fa-edit",
               "target": "_self"
@@ -128,12 +128,6 @@
             {
               "title": "投诉统计分析",
               "href": "page/tongji/index2.html",
-              "icon": "fa fa-adn",
-              "target": "_self"
-            },
-            {
-              "title": "投诉统计分析",
-              "href": "page/tongji/index3.html",
               "icon": "fa fa-adn",
               "target": "_self"
             }

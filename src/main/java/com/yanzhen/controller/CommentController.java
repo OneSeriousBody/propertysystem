@@ -32,11 +32,19 @@ public class CommentController {
     @Autowired
     private OwnerServiceImpl ownerService;
 
+    /**
+     * 查询所有评论列表
+     * @param request
+     * @param comment
+     * @param page
+     * @param limit
+     * @return
+     */
     @GetMapping("/list")
     public JsonObject getComment(HttpServletRequest request, Comment comment,
                                  @RequestParam(defaultValue = "1") Integer page,
                                  @RequestParam(defaultValue = "15") Integer limit) {
-
+        // 判断当前的请求是否是管理员发起的
         Boolean flag = SessionUtils.isAdmin(request);
         // 如果不是管理员，只查询当前业主的信息
         if (!flag) {
@@ -45,6 +53,7 @@ public class CommentController {
             Owner owner = ownerService.queryOwnerByName(username);
             comment.setOwnerId(owner.getId());
         }
+        // 获取评论数据
         PageInfo<Comment> pageInfo = commentService.getCommentList(page, limit, comment);
         return new JsonObject(0,"ok",pageInfo.getTotal(),pageInfo.getList());
     }
@@ -59,7 +68,9 @@ public class CommentController {
         String username= SessionUtils.getUserInfo(request).getUsername();
         //根据username获取登录账号得业主id
         Owner owner = ownerService.queryOwnerByName(username);
+        // 设置评论的业主id
         comment.setOwnerId(owner.getId());
+        // 将评论的数据添加到数据库
         boolean flag = commentService.addComment(comment);
         if (flag) {
             return R.ok();
@@ -68,6 +79,11 @@ public class CommentController {
 
     }
 
+    /**
+     * 修改评论
+     * @param comment
+     * @return
+     */
     @PostMapping("/edit")
     public R editComment(@RequestBody Comment comment) {
 
@@ -78,6 +94,11 @@ public class CommentController {
         return R.fail("修改失败");
     }
 
+    /**
+     * 删除评论
+     * @param ids
+     * @return
+     */
     @RequestMapping("/deleteByIds")
     public R delete(String ids){
         List<String> list= Arrays.asList(ids.split(","));

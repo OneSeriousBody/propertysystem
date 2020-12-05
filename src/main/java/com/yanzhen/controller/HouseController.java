@@ -101,21 +101,6 @@ public class HouseController {
         }
     }
 
-    @ApiOperation(value = "查询分页数据")
-    @ApiImplicitParams({
-        @ApiImplicitParam(name = "page", value = "页码"),
-        @ApiImplicitParam(name = "pageCount", value = "每页条数")
-    })
-    @GetMapping()
-    public IPage<House> findListByPage(@RequestParam Integer page,
-                                       @RequestParam Integer pageCount){
-        return houseService.findListByPage(page, pageCount);
-    }
 
-    @ApiOperation(value = "id查询")
-    @GetMapping("{id}")
-    public House findById(@PathVariable Long id){
-        return houseService.findById(id);
-    }
 
 }
