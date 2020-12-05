@@ -75,7 +75,12 @@ function addOrUpdateSubmit($,url,datas){
                     parent.layer.close(iframeIndex);
                 })
             }else{
-                layer.msg("失败");
+                if (result.msg != null) {
+                    layer.msg(result.msg)
+                }
+                else {
+                    layer.msg("失败");
+                }
             }
         }
     })
