@@ -30,11 +30,11 @@
         <script type="text/html" id="currentTableBar">
 
             {{# if(d.status=='2' && d.commentId==null){ }}
-            <a class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="urgingPayment">前往缴费</a>
+            <a class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="goPay">前往缴费</a>
             <a class="layui-btn layui-btn-xs layui-btn-primary data-count-delete" lay-event="addComment">去评价</a>
 
             {{# } else if(d.status == '2' && d.commentId != null){ }}
-            <a class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="urgingPayment">前往缴费</a>
+            <a class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="goPay">前往缴费</a>
             {{# } }}
 
         </script>
@@ -166,29 +166,10 @@
                     layer.full(index);
                 });
                 return false
-
-            } else if (obj.event === 'urgingPayment') {
-                layer.confirm('确定发邮件催缴费么？', function (index) {
-                    $.ajax({
-                        url:'repair/urgingPayment',
-                        type:"post",
-                        data:{'ownerId': data.ownerId },
-                        success:function (result) {
-                            if(result.code==200){
-                                layer.msg('发送邮件成功',{
-                                    iocn:6,
-                                    time:500
-                                },function () {
-                                    //重载父窗口 关闭当前窗口
-                                    parent.window.location.reload();
-                                    var iframeIndex=parent.layer.getFrameIndex(window.name);
-                                    parent.layer.close(iframeIndex);
-                                })
-                            }else{
-                                layer.msg("发送失败");
-                            }
-                        }
-                    })
+            } else if (obj.event === 'goPay') {
+                layer.confirm('确定要前往缴费吗？', function (index) {
+                    // console.log(data.id)
+                    window.location.href = payUrl+"/payment/payRepair?id=" + data.id
                 });
             } else if (obj.event === 'delete') {
                 layer.confirm('真的删除行么', function (index) {

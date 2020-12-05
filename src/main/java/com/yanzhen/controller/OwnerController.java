@@ -67,6 +67,7 @@ public class OwnerController {
 
     @ApiOperation(value = "新增")
     @RequestMapping("/add")
+    @Transactional
     public R add(@RequestBody Owner owner){
         //md5加密
 //        String md5Password = DigestUtils.md5DigestAsHex("123456".getBytes());

@@ -81,21 +81,5 @@ public class UserinfoController {
 
     }
 
-    @ApiOperation(value = "查询分页数据")
-    @ApiImplicitParams({
-        @ApiImplicitParam(name = "page", value = "页码"),
-        @ApiImplicitParam(name = "pageCount", value = "每页条数")
-    })
-    @GetMapping()
-    public IPage<Userinfo> findListByPage(@RequestParam Integer page,
-                                          @RequestParam Integer pageCount){
-        return userinfoService.findListByPage(page, pageCount);
-    }
-
-    @ApiOperation(value = "id查询")
-    @GetMapping("{id}")
-    public Userinfo findById(@PathVariable Long id){
-        return userinfoService.findById(id);
-    }
 
 }

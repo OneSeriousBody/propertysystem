@@ -105,6 +105,7 @@ public class SchedulingTask {
         // 查找过期的停车位
         List<Carcharge> carchargeList = carchargeService.list(carchargeQueryWrapper.eq("end_time", format));
         carchargeList.forEach(carcharge -> {
+            // 更新停车场的订单状态为已经过期
             carcharge.setStatus(2);
             Owner owner = ownerService.getById(carcharge.getOwnerId());
 
@@ -113,7 +114,7 @@ public class SchedulingTask {
             Parking parking = parkingService.getById(parkId);
             parking.setStatus(0);
             parking.setOwnerId(null);
-            // 更新停车长的位置为未使用
+            // 更新停车的位置为未使用
             parkingService.updateById(parking);
             // 发送停车位已经过期了，让业主进行续费的停球。
             mailService.sendHtmlMail(owner.getEmail(), "停车位过期","您的停车位已经过期，如需办理，可前往物业重新办理",  null);

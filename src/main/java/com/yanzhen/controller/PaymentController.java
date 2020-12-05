@@ -5,10 +5,12 @@ import com.yanzhen.config.AlipayConfig;
 import com.yanzhen.model.Broadband;
 import com.yanzhen.model.Carcharge;
 import com.yanzhen.model.Records;
+import com.yanzhen.model.Repair;
 import com.yanzhen.service.AlipayService;
 import com.yanzhen.service.impl.BroadbandServiceImpl;
 import com.yanzhen.service.impl.CarchargeServiceImpl;
 import com.yanzhen.service.impl.RecordsServiceImpl;
+import com.yanzhen.service.impl.RepairServiceImpl;
 import com.yanzhen.util.Constants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +45,9 @@ public class PaymentController {
 
     @Autowired
     private RecordsServiceImpl recordsService;
+
+    @Autowired
+    private RepairServiceImpl repairService;
 
 
     /**
@@ -88,6 +93,15 @@ public class PaymentController {
     public void payProperty(HttpServletResponse response, HttpServletRequest request, Integer id, Integer flag) {
         try {
             alipayService.payProperty(response,request, id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @GetMapping("/payRepair")
+    public void payRepair(HttpServletResponse response, HttpServletRequest request, Integer id, Integer flag) {
+        try {
+            alipayService.payRepair(response,request, id);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -159,6 +173,11 @@ public class PaymentController {
                 // 修改状态为已经支付
                 records.setStatus(1);
                 recordsService.updateById(records);
+            } else if (flag.equals(Constants.PAY_REPAIR)) {
+                Repair repair = new Repair();
+                repair.setId(Integer.parseInt(id));
+                repair.setStatus(3);
+                repairService.updateById(repair);
             }
 
 

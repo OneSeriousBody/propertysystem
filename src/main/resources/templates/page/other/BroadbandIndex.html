@@ -95,7 +95,7 @@
             if (obj.event === 'goPay') {
                 layer.confirm('确定要前往缴费吗？', function (index) {
                     // console.log(data.id)
-                    window.location.href = "http://www.xuxuanyao.cn:8888/payment/payBroadband?id=" + data.id
+                    window.location.href = payUrl+"/payment/payBroadband?id=" + data.id
                 });
 
 

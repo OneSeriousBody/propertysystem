@@ -17,5 +17,6 @@ public class Constants {
     public final static String PAY_CAR = "1";
     public final static String PAY_BROADBAND = "2";
     public final static String PAY_PROPERTY = "3";
+    public final static String PAY_REPAIR = "4";
 
 }

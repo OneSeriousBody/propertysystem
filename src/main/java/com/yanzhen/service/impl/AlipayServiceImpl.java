@@ -8,6 +8,7 @@ import com.yanzhen.config.AlipayConfig;
 import com.yanzhen.model.Broadband;
 import com.yanzhen.model.Carcharge;
 import com.yanzhen.model.Records;
+import com.yanzhen.model.Repair;
 import com.yanzhen.service.AlipayService;
 import com.yanzhen.util.Constants;
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +34,9 @@ public class AlipayServiceImpl implements AlipayService {
 
     @Autowired
     private RecordsServiceImpl recordsService;
+
+    @Autowired
+    private RepairServiceImpl repairService;
 
 
     @Override
@@ -88,6 +92,24 @@ public class AlipayServiceImpl implements AlipayService {
                 + "\"subject\":\"" + subject + "\","
                 + "\"id\":\"" + id + "\","
                 + "\"flag\":\"" + Constants.PAY_PROPERTY+ "\","
+                + "\"product_code\":\"FAST_INSTANT_TRADE_PAY\"}";
+        goPay(response, request, bizContent);
+    }
+
+    @Override
+    public void payRepair(HttpServletResponse response, HttpServletRequest request, Integer id) {
+        //商户订单号，后台可以写一个工具类生成一个订单号，必填
+        String orderNumber = id.toString() + "," + Constants.PAY_REPAIR;
+        //付款金额，从前台获取，必填
+        Repair repair = repairService.getById(id);
+        String total_amount = String.valueOf(repair.getPrice());
+        //订单名称，必填
+        String subject = new String("支付维修费");
+        String bizContent = "{\"out_trade_no\":\"" + orderNumber + "\","
+                + "\"total_amount\":\"" + total_amount + "\","
+                + "\"subject\":\"" + subject + "\","
+                + "\"id\":\"" + id + "\","
+                + "\"flag\":\"" + Constants.PAY_REPAIR+ "\","
                 + "\"product_code\":\"FAST_INSTANT_TRADE_PAY\"}";
         goPay(response, request, bizContent);
     }

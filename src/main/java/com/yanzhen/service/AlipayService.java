@@ -30,4 +30,12 @@ public interface AlipayService {
     * @param id
     */
    void payProperty(HttpServletResponse response, HttpServletRequest request, Integer id);
+
+   /**
+    * 支付维修费
+    * @param response
+    * @param request
+    * @param id
+    */
+    void payRepair(HttpServletResponse response, HttpServletRequest request, Integer id);
 }

@@ -1,3 +1,4 @@
+var payUrl = "http://www.xuxuanyao.cn:8888"
 //打开添加获取编辑页面
 function openPage(content,title,width,heigth){
 
