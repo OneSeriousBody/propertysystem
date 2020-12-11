@@ -47,7 +47,7 @@
             <if test="comId!=null and comId != '' ">
                 and com_id=#{comId}
             </if>
-            <if test="status!=null and status != '' ">
+            <if test="status!=null">
                 and rep.status=#{status}
             </if>
             <if test="ownerId!=null ">

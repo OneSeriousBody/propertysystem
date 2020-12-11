@@ -51,6 +51,11 @@
                 and car.status=#{status}
             </if>
 
+            <if test="status == 0">
+                and car.status=0
+            </if>
+
+
             <if test="ownerId!=null">
                 and car.owner_id=#{ownerId}
             </if>

@@ -77,7 +77,7 @@ public class CarchargeController {
             carcharge.setParking(parking);
         }
        // 查询停车费用
-        PageInfo<Carcharge> pageInfo=carchargeService.findCarchargeAll(page,limit,carcharge);
+        PageInfo<Carcharge> pageInfo = carchargeService.findCarchargeAll(page,limit,carcharge);
         return new JsonObject(0,"ok",pageInfo.getTotal(),pageInfo.getList());
 
     }
