@@ -220,7 +220,7 @@ CREATE TABLE `owner`  (
 -- ----------------------------
 -- Records of owner
 -- ----------------------------
-INSERT INTO `owner` VALUES (12, 'xhh', '13824567809', '男', '41123119801122', 6, '714617106@qq.com', '无', NULL, '123456');
+INSERT INTO `owner` VALUES (12, 'coderwzt', '13824567809', '男', '41123119801122', 6, '714617106@qq.com', '无', NULL, '123456');
 INSERT INTO `owner` VALUES (13, 'ltg', '13824567809', '男', '441581199801234', 7, '714617106@qq.com', '无', NULL, '123456');
 INSERT INTO `owner` VALUES (14, 'zjs', '15920307514', '男', '441581199801234', 8, '714617106@qq.com', '无', NULL, '123456');
 INSERT INTO `owner` VALUES (16, 'cxs', '15920307514', '男', '441581199801235', 9, '714617106@qq.com', '无', NULL, '123456');
@@ -375,7 +375,7 @@ CREATE TABLE `repair_personnel`  (
 INSERT INTO `repair_personnel` VALUES (1, 'ltg', NULL, '15920307516');
 INSERT INTO `repair_personnel` VALUES (2, 'zjs', NULL, '15920307512');
 INSERT INTO `repair_personnel` VALUES (3, 'cxz', NULL, '15920307513');
-INSERT INTO `repair_personnel` VALUES (4, 'xhh', NULL, '15920307514');
+INSERT INTO `repair_personnel` VALUES (4, 'coderwzt', NULL, '15920307514');
 INSERT INTO `repair_personnel` VALUES (5, 'sentinel', NULL, '15920307511');
 
 -- ----------------------------
@@ -419,7 +419,7 @@ CREATE TABLE `userinfo`  (
 -- Records of userinfo
 -- ----------------------------
 INSERT INTO `userinfo` VALUES (1, 'admin', '1', 1, NULL);
-INSERT INTO `userinfo` VALUES (5, 'xhh', '123456', 0, '无');
+INSERT INTO `userinfo` VALUES (5, 'coderwzt', '123456', 0, '无');
 INSERT INTO `userinfo` VALUES (6, 'ltg', '123456', 0, '无');
 INSERT INTO `userinfo` VALUES (7, 'zjs', '123456', 0, '无');
 INSERT INTO `userinfo` VALUES (10, 'cxs', '123456', 0, '无');

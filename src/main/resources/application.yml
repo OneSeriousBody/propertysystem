@@ -7,18 +7,19 @@ spring:
   resources:
     static-locations: classpath:/static/,classpath:/templates/
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    driver-class-name: com.mysql.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
-    url: jdbc:mysql://47.103.223.46:3306/estate?useUnicode=true&amp&characterEncoding=utf-8&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/wuye?useUnicode=true&amp&characterEncoding=utf-8&serverTimezone=UTC
     username: root
-    password: 123456
+    password: 123
+  #    password: Wuzetao19971025@
   devtools:  # 热部署
     livereload:
       enabled: false
   mail:
     host: smtp.qq.com
-    username: 1227991378@qq.com
-    password: fmarefqgdfwshjec
+    username: 1351645715@qq.com
+    password: QFAQPLFQZRZBMVWQ
     properties:
       mail:
         smtp:
@@ -32,11 +33,11 @@ spring:
 
 # mybatis
 mybatis-plus:
-  type-aliases-package: com.yanzhen.model
-  mapper-locations: classpath:com/yanzhen/dao/*.xml
+  type-aliases-package: com.coderwzt.model
+  mapper-locations: classpath:com/coderwzt/dao/*.xml
   configuration:
     map-underscore-to-camel-case: true
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
-loginIndex: http://www.xuxuanyao.cn:8888
+loginIndex: http://localhost:8888
 

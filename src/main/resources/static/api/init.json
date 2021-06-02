@@ -4,13 +4,13 @@
     "href": "page/welcome-3.html?t=1"
   },
   "logoInfo": {
-    "title": "物业管理系统",
+    "title": "CoderWZT",
     "image": "images/logo.png",
     "href": ""
   },
   "menuInfo": [
     {
-      "title": "社区物业管理",
+      "title": "小区物业管理",
       "icon": "fa fa-lemon-o",
       "href": "",
       "target": "_self",
